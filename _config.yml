@@ -1,0 +1,26 @@
+# Site settings
+name: zjhuang's Blog
+email: 893238192@qq.com
+author: zjhuang
+url: https://kwilove.github.io/
+resume_site: https://kwilove.github.io/
+github: https://github.com/kwilove/
+baseurl: "/"
+description: On the way!
+meta_description: 
+motto: No Details No Success.
+#banner: 学而不思则罔，思而不学则殆。
+
+#permalink: /:categories/:year/:month/:day/:title/
+permalink: /:year/:month/:day/:title/
+paginate: 10
+
+exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
+
+github_username: kwilove
+
+# Build settings
+markdown: kramdown
+
+baidu_analysis: ef369a6e74765e7735d7ce852e1a814c
+
