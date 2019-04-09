@@ -32,7 +32,7 @@ system:
 2. @PropertySource是为了告知springboot加载自定义的yml配置文件，springboot默认会自动加载application.yml文件，如果参数信息直接写在这个文件里，则不需要显式加载。
 
 3. 在@ConfigurationProperties中配置了prefix前缀信息的条件下，@Value指定yml配置文件中的参数项名称。
-```java
+``` java
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
@@ -58,7 +58,7 @@ public class YamlProperties {
 * 测试用例代码：
 
 后面的两种方式也共用这个测试用例代码，下面不再列出。
-```java
+``` java
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +86,7 @@ YamlProperties{name='zjhuang', password='123456', age=25}
 ## **二. 实现PropertySourceFactory接口 + @PropertySource + @Value方式**
 
 * PropertySourceFactory实现类代码
-```java
+``` java
 import org.springframework.boot.env.PropertySourcesLoader;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.Resource;
@@ -116,7 +116,7 @@ public class YamlPropertySourceFactory implements PropertySourceFactory {
 
 * 配置参数类代码
 
-```java
+``` java
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -157,7 +157,7 @@ YamlProperties{name='zjhuang', password='123456', age=25}
 
 * PropertySourcesPlaceholderConfigurer类代码
 
-```java
+``` java
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -180,7 +180,7 @@ public class PropertySourcesPlaceholderConfigurerBean {
 * 配置参数类代码
 
 这第三种方法去掉了@PropertySource 注解，改为定义一个PropertySourcesPlaceholderConfigurer类型的@Bean来加载配置文件信息。
-```java
+``` java
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
