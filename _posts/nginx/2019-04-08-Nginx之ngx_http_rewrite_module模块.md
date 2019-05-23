@@ -2,7 +2,7 @@
 layout: post
 title:  Nginx之ngx_http_rewrite_module模块
 date:   2019-04-08 19:08:00 +0800
-categories: 分布式框架
+categories: 性能调优
 tag: Nginx
 ---
 
@@ -10,8 +10,10 @@ tag: Nginx
 {:toc}
 
 
-## ngx_http_rewrite_module模块介绍
-Nginx的`ngx_http_rewrite_module`模块用于通过PCRE正则表达式修改请求URI，返回重定向，和按条件选择符合的配置信息。
+## 1. ngx_http_rewrite_module模块介绍
+---
+* Nginx的`ngx_http_rewrite_module`模块用于通过PCRE正则表达式修改请求URI，返回重定向，和按条件选择符合的配置信息。
+* 本篇文章根据[官方文档](http://nginx.org/en/docs/http/ngx_http_rewrite_module.html)进行翻译，限于个人水平，如有错误，欢迎指正。
 
 #### break、if、return、rewrite和set指令的处理顺序
 1. 如果在`server`级别下配置了`rewrite`指令，它会在`location`指令之前执行。
@@ -21,7 +23,8 @@ Nginx的`ngx_http_rewrite_module`模块用于通过PCRE正则表达式修改请�
 5. 循环最多重复10次，超过后Nginx将返回500 error。
 
 
-## break指令
+## 2. break指令
+---
 **语法**：break
 **默认值**：none
 **作用域**：server、location、if
@@ -36,7 +39,8 @@ if ($slow) {
 ```
 
 
-## if指令
+## 3. if指令
+---
 **语法**：if(condition) {...}
 **默认**：none
 **作用域**：server、location
@@ -87,7 +91,8 @@ if ($invalid_referer) {
 ```
 
 
-## return指令
+## 4. return指令
+---
 **语法**：return code [text]; return code URL; return URL;
 **默认值**：none
 **作用域**：server、location、if
@@ -98,11 +103,20 @@ if ($invalid_referer) {
     * 响应体文本和重定向URL可以包含变量；
     * 有一种特殊情况，可以将重定向URL指定为当前服务器的本地URI，在这种情况下，将根据请求协议($scheme)、server_name_in_redirect指令和port_in_redirect指令形成完整的重定向URL。
 * 此外，带有302状态码的临时重定向URL可以被指定为唯一参数，这个参数应该以"http://"、"https://"或者"$scheme"字符串开头，可以包含变量；
+    ```nginx
+    # 监听www.abc.com/abc.com的80端口，将http请求转为到https请求。
+    server {
+        listen 80;
+        server_name www.abc.cn abc.cn;
+        return 301 https://$server_name$request_uri;
+    }
+    ```
 * 状态码307直到版本1.1.16和1.0.13才被视为重定向。
 * 状态码308直到1.13.0版本才被视为重定向。
 
 
-## rewrite指令
+## 5. rewrite指令
+---
 **语法**：rewrite regex replacement [flag];
 **默认**：none
 **作用域**：server、location、if
@@ -150,21 +164,24 @@ rewrite ^/users/(.*)$ /show?user=$1? last;
 ```
 * 如果正则表达式包含`}`或`;`字符，则整个表达式需要用单引号或双引号括起来。
 
-## rewrite_log指令
+## 6. rewrite_log指令
+---
 **语法**：rewrite_log on | off;
 **默认**：rewrite_log off;
 **作用域**：http, server, location, if
 **作用**：开启或关闭将`ngx_http_rewrite_module`模块指令处理结果的`notice`级别日志写入`error.log`文件中。
 
 
-## set指令
+## 7. set指令
+---
 **语法**：set $variable value;
 **默认**：none
 **作用域**：server, location, if
 **作用**：为指定的变量设置一个值。该值可以包含文本、变量及其组合。
 
 
-## uninitialized_variable_warn指令
+## 8. uninitialized_variable_warn指令
+---
 **语法**：uninitialized_variable_warn on | off;
 **默认**：uninitialized_variable_warn on;
 **作用域**：http, server, location, if
